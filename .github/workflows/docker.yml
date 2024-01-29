@@ -23,6 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download and Extract Fonts
+        run: |
+          wget -O fonts.zip https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip
+          unzip -j fonts.zip SubsetOTF/CN/SourceHanSansCN-Regular.otf -d $GITHUB_WORKSPACE/assets/fonts
+          rm fonts.zip
+
       - name: Install cosign
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3
@@ -46,9 +52,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            latest
-            ${{ github.sha }}
-            ${{ github.ref }}
+                type=raw,value=latest
+                type=ref,event=tag
+                type=sha
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v5
