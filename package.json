@@ -24,7 +24,7 @@
     "emoji-db": "^14.0.1",
     "jimp": "^0.16.1",
     "jsdom": "^16.5.3",
-    "koa": "^2.15.0",
+    "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.1",
     "koa-ratelimit": "^4.2.1",
