@@ -1,12 +1,12 @@
-FROM nikolaik/python-nodejs:python3.12-nodejs21 AS builder
+FROM archlinux:latest
 
-ENV NODE_WORKDIR /app
-WORKDIR $NODE_WORKDIR
+WORKDIR /app
+ADD . /app
 
-ADD . $NODE_WORKDIR
+RUN \
+		pacman -Syu --noconfirm --needed --noprogressbar --noconfirm nodejs npm base-devel openssl-1.1 && \
+		cd /app && \
+		npm install && \
+		pacman -Rsc --noconfirm base-devel npm && \
+		rm -rf /var/cache /var/lib/pacman/sync/* /root/.npm /root/.cache /root/.node_repl_history
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN apt-get update && apt-get install -y build-essential gcc wget git libvips && rm -rf /var/lib/apt/lists/*
-
-
-RUN npm install canvas@2.11.2 && npm install # TODO: canvas crashes if installed via npm install from package.json
