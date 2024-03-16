@@ -1,12 +1,11 @@
-FROM archlinux:latest
+FROM node:16-alpine3.16
 
 WORKDIR /app
 ADD . /app
 
-RUN \
-		pacman -Syu --noconfirm --needed --noprogressbar --noconfirm nodejs npm base-devel openssl-1.1 && \
-		cd /app && \
-		npm install && \
-		pacman -Rsc --noconfirm base-devel npm && \
-		rm -rf /var/cache /var/lib/pacman/sync/* /root/.npm /root/.cache /root/.node_repl_history
+RUN apk add gcompat libstdc++ libuuid vips-dev build-base jpeg-dev pango-dev cairo-dev imagemagick --no-cache&& \
+ln -s /lib/libresolv.so.2 /usr/lib/libresolv.so.2
+RUN npm install
+
+CMD ["index.js"]
 
