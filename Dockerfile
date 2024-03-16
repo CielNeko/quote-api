@@ -1,9 +1,9 @@
-FROM node:16-alpine3.16
+FROM node:20-alpine
 
 WORKDIR /app
 ADD . /app
 
-RUN apk add gcompat libstdc++ libuuid vips-dev build-base jpeg-dev pango-dev cairo-dev imagemagick --no-cache&& \
+RUN apk add gcompat libstdc++ libuuid vips-dev build-base jpeg-dev pango-dev cairo-dev imagemagick libssl1.1 --no-cache&& \
 ln -s /lib/libresolv.so.2 /usr/lib/libresolv.so.2
 RUN npm install
 
